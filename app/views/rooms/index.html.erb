@@ -1,0 +1,40 @@
+<div class="max-w-4xl mx-auto">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold">Rooms</h1>
+    <%# TODO: Make this go somewhere %>
+    <button class="btn btn-primary">Create New Room</button>
+  </div>
+
+  <% if @rooms.any? %>
+    <div class="grid gap-4">
+      <% @rooms.each do |room| %>
+        <div class="card bg-base-100 shadow-md border">
+          <div class="card-body">
+            <div class="flex justify-between items-start">
+              <div>
+                <h2 class="card-title"><%= room.name %></h2>
+                <div class="badge badge-primary"><%= room.code %></div>
+              </div>
+              <div class="card-actions">
+                <button class="btn btn-sm btn-outline">View</button>
+                <button class="btn btn-sm btn-ghost">Edit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <div class="text-gray-500 mb-4">
+        <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+        </svg>
+      </div>
+      <h3 class="text-lg font-semibold mb-2">No rooms yet</h3>
+      <p class="text-gray-600 mb-4">Get started by creating your first room.</p>
+      <button class="btn btn-primary">Create Your First Room</button>
+    </div>
+  <% end %>
+</div>
