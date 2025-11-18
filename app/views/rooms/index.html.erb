@@ -1,8 +1,11 @@
 <div class="max-w-4xl mx-auto">
   <div class="flex justify-between items-center mb-8">
     <h1 class="text-3xl font-bold">Rooms</h1>
-    <%# TODO: Make this go somewhere %>
-    <button class="btn btn-primary">Create New Room</button>
+    <%= form_with url: rooms_path, method: :post, local: true, class: "flex gap-2 items-center" do |f| %>
+      <%= f.text_field :name, placeholder: "Room name...", required: true, 
+                       class: "input input-bordered input-primary flex-1 min-w-48" %>
+      <%= f.submit "Create Room", class: "btn btn-primary" %>
+    <% end %>
   </div>
 
   <% if @rooms.any? %>
@@ -34,7 +37,11 @@
       </div>
       <h3 class="text-lg font-semibold mb-2">No rooms yet</h3>
       <p class="text-gray-600 mb-4">Get started by creating your first room.</p>
-      <button class="btn btn-primary">Create Your First Room</button>
+      <%= form_with url: rooms_path, method: :post, local: true, class: "flex gap-2 justify-center items-center max-w-md mx-auto" do |f| %>
+        <%= f.text_field :name, placeholder: "Enter room name...", required: true, 
+                         class: "input input-bordered input-primary flex-1" %>
+        <%= f.submit "Create Room", class: "btn btn-primary" %>
+      <% end %>
     </div>
   <% end %>
 </div>
