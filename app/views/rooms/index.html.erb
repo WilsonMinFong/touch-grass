@@ -9,23 +9,40 @@
   </div>
 
   <% if @rooms.any? %>
-    <div class="grid gap-4">
-      <% @rooms.each do |room| %>
-        <div class="card bg-base-100 shadow-md border">
-          <div class="card-body">
-            <div class="flex justify-between items-start">
-              <div>
-                <h2 class="card-title"><%= room.name %></h2>
+    <div class="overflow-x-auto">
+      <table class="table table-zebra">
+        <thead>
+          <tr>
+            <th>Room Name</th>
+            <th>Code</th>
+            <th>Created</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @rooms.each do |room| %>
+            <tr class="hover">
+              <td>
+                <div class="font-semibold"><%= room.name %></div>
+              </td>
+              <td>
                 <div class="badge badge-primary"><%= room.code %></div>
-              </div>
-              <div class="card-actions">
-                <button class="btn btn-sm btn-outline">View</button>
-                <button class="btn btn-sm btn-ghost">Edit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
+              </td>
+              <td>
+                <div class="text-sm text-gray-500">
+                  <%= room.created_at.strftime("%b %d, %Y") %>
+                </div>
+              </td>
+              <td>
+                <div class="flex gap-2">
+                  <button class="btn btn-sm btn-outline">View</button>
+                  <button class="btn btn-sm btn-ghost">Edit</button>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
   <% else %>
     <div class="text-center py-12">
