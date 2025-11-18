@@ -4,6 +4,11 @@ class Room < ApplicationRecord
 
   before_validation :generate_code, on: :create
 
+  # Use the code instead of id in URLs
+  def to_param
+    code
+  end
+
   private
 
   def generate_code

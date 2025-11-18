@@ -35,7 +35,8 @@
               </td>
               <td>
                 <div class="flex gap-2">
-                  <button class="btn btn-sm btn-outline">View</button>
+                  <%= link_to 'View', room_path(room), class: "btn btn-sm btn-outline" %>
+                  <%# <a hclass="btn btn-sm btn-outline">View</a> %>
                   <button class="btn btn-sm btn-ghost">Edit</button>
                 </div>
               </td>

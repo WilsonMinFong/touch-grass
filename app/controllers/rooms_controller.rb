@@ -6,9 +6,13 @@ class RoomsController < ApplicationController
     @rooms = Room.all
   end
 
+  def show
+    @room = Room.find_by!(code: params[:id])
+  end
+
   def create
     @room = Room.new(room_params)
-    
+
     if @room.save
       redirect_to rooms_path, notice: "Room '#{@room.name}' was created successfully with code #{@room.code}!"
     else
