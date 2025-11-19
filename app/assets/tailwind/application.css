@@ -9,6 +9,6 @@
   /* custom theme here */
 }
 
-div {
-  margin: 20px;
+h1 {
+  @apply text-3xl font-bold;
 }

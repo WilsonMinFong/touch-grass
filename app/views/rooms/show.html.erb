@@ -1,33 +1,61 @@
-<div class="max-w-4xl mx-auto" data-room-code="<%= @room.code %>">
-  <div class="flex justify-between items-center mb-8">
-    <h1 class="text-3xl font-bold">Room <%= @room.code %>
-      <span class="text-lg">(<span id="participants-count"><%= @room.active_participants_count %></span> active)</span>
-    </h1>
+<div class="max-w-4xl mx-auto">
+  <div>
+    <h1>Room <%= @room.code %></h1>
+    <%# TODO: replace filler questions %>
+    <div
+      class="card bg-[#C8C8FF] shadow-md p-6 w-full max-w-md mx-auto space-y-4 mt-4 mb-4"
+    >
+      <label
+        class="block text-lg font-medium text-base-content bg-base-200 p-3 rounded-md border"
+      >
+        How are you, really?
+      </label>
+      <textarea
+        placeholder="Today, I am feeling..."
+        class="textarea textarea-bordered w-full h-48 text-med p-3 rounded-md bg-base-200"
+      ></textarea>
+    </div>
   </div>
 
-  <!-- Session Info (for debugging) -->
   <% if Rails.env.development? %>
+    <h1>Debug Dump</h1>
     <% is_admin = (@room.session_id == session[:user_identity]) %>
     <div class="alert alert-info mb-4">
       <div class="flex items-center">
-        <span class="text-sm">Session ID: <code class="px-2 py-1 rounded"><%= session[:user_identity] %></code></span>
+        <span class="text-sm"
+          >Session ID:
+          <code class="px-2 py-1 rounded"><%= session[:user_identity] %></code
+        ></span>
+        <span class="text-lg"
+          >(<span id="participants-count"><%=
+              @room.active_participants_count
+            %></span>
+          active)</span
+        >
       </div>
     </div>
     <div class="alert alert-info mb-4">
-        <div class="flex flex-col items-start">
-            <span class="text-sm block font-bold">Room <%= @room.code %> Metadata</span>
-            <ul>
-                <% @room.attributes.each do |key, value| %>
-                    <li><%= key %>: <%= value %></li>
-                <% end %>
-            </ul>
-        </div>
+      <div class="flex flex-col items-start">
+        <span class="text-sm block font-bold"
+          >Room <%= @room.code %> Metadata</span
+        >
+        <ul>
+          <% @room.attributes.each do |key, value| %>
+            <li><%= key %>: <%= value %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
     <div class="alert alert-info mb-4">
-        <div class="flex items-center">
-            <span class="text-sm block"> User is <% if !is_admin %> not <%end%> admin. </span>
-        </div>
+      <div class="flex items-center">
+        <span class="text-sm block">
+          User is
+          <% if !is_admin %>
+            not
+          <%end%>
+          admin.
+        </span>
+      </div>
     </div>
-  <% end %>
+  <%end%>
 </div>
-
