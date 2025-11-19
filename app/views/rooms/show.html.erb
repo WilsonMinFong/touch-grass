@@ -5,6 +5,7 @@
 
   <!-- Session Info (for debugging) -->
   <% if Rails.env.development? %>
+    <% is_admin = (@room.session_id == session[:user_identity]) %>
     <div class="alert alert-info mb-4">
       <div class="flex items-center">
         <span class="text-sm">Session ID: <code class="px-2 py-1 rounded"><%= session[:user_identity] %></code></span>
@@ -22,7 +23,7 @@
     </div>
     <div class="alert alert-info mb-4">
         <div class="flex items-center">
-            <span class="text-sm block"> User is <% if @room.session_id != session[:user_identity] %> not <%end%> admin. </span>
+            <span class="text-sm block"> User is <% if !is_admin %> not <%end%> admin. </span>
         </div>
     </div>
   <% end %>
