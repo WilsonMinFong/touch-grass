@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_19_155947) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_19_184003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "room_presences", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "last_seen"
+    t.bigint "room_id", null: false
+    t.string "session_id"
+    t.datetime "updated_at", null: false
+    t.index ["last_seen"], name: "index_room_presences_on_last_seen"
+    t.index ["room_id", "session_id"], name: "index_room_presences_on_room_id_and_session_id", unique: true
+    t.index ["room_id"], name: "index_room_presences_on_room_id"
+  end
 
   create_table "rooms", force: :cascade do |t|
     t.string "code", limit: 6, null: false
@@ -23,4 +34,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_19_155947) do
     t.index ["code"], name: "index_rooms_on_code", unique: true
     t.index ["session_id"], name: "index_rooms_on_session_id"
   end
+
+  add_foreign_key "room_presences", "rooms"
 end

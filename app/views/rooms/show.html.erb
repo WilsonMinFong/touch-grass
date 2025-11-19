@@ -1,6 +1,8 @@
-<div class="max-w-4xl mx-auto">
+<div class="max-w-4xl mx-auto" data-room-code="<%= @room.code %>">
   <div class="flex justify-between items-center mb-8">
-    <h1 class="text-3xl font-bold">Room <%= @room.code %> </h1>
+    <h1 class="text-3xl font-bold">Room <%= @room.code %>
+      <span class="text-lg">(<span id="participants-count"><%= @room.active_participants_count %></span> active)</span>
+    </h1>
   </div>
 
   <!-- Session Info (for debugging) -->
