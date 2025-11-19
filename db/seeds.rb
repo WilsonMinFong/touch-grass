@@ -7,3 +7,11 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+[
+  "How are you?",
+  "What brings you here?",
+  "What's hard today?"
+].each do |question_text|
+  Question.find_or_create_by!(question_text: question_text)
+end
