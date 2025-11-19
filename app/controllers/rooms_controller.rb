@@ -3,20 +3,20 @@ class RoomsController < ApplicationController
   allow_browser versions: :modern
 
   def index
-    @rooms = Room.all
+    @rooms = Room.for_session(current_session_id)
   end
 
   def show
-    @room = Room.find_by!(code: params[:id])
+    @room = Room.for_session(current_session_id).find_by!(code: params[:id])
   end
 
   def create
-    @room = Room.new(room_params)
+    @room = Room.new(room_params.merge(session_id: current_session_id))
 
     if @room.save
       redirect_to rooms_path, notice: "Room '#{@room.name}' was created successfully with code #{@room.code}!"
     else
-      @rooms = Room.all
+      @rooms = Room.for_session(current_session_id)
       flash.now[:alert] = "Failed to create room: #{@room.errors.full_messages.join(', ')}"
       render :index, status: :unprocessable_entity
     end

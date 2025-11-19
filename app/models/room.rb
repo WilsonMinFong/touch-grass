@@ -1,8 +1,11 @@
 class Room < ApplicationRecord
   validates :code, presence: true, uniqueness: true, length: { maximum: 6 }
   validates :name, presence: true
+  validates :session_id, presence: true
 
   before_validation :generate_code, on: :create
+
+  scope :for_session, ->(session_id) { where(session_id: session_id) }
 
   # Use the code instead of id in URLs
   def to_param
