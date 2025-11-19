@@ -5,6 +5,10 @@
 @plugin "./daisyui.mjs";
 
 /* Optional for custom themes – Docs: https://daisyui.com/docs/themes/#how-to-add-a-new-custom-theme */
-@plugin "./daisyui-theme.mjs"{
+@plugin "./daisyui-theme.mjs" {
   /* custom theme here */
+}
+
+div {
+  margin: 20px;
 }
