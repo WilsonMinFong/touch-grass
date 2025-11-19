@@ -1,11 +1,6 @@
 <div class="max-w-4xl mx-auto">
   <div class="flex justify-between items-center mb-8">
     <h1 class="text-3xl font-bold">Rooms</h1>
-    <%= form_with url: rooms_path, method: :post, local: true, class: "flex gap-2 items-center" do |f| %>
-      <%= f.text_field :name, placeholder: "Room name...", required: true, 
-                       class: "input input-bordered input-primary flex-1 min-w-48" %>
-      <%= f.submit "Create Room", class: "btn btn-primary" %>
-    <% end %>
   </div>
 
   <% if @rooms.any? %>
@@ -36,7 +31,6 @@
               <td>
                 <div class="flex gap-2">
                   <%= link_to 'View', room_path(room), class: "btn btn-sm btn-outline" %>
-                  <%# <a hclass="btn btn-sm btn-outline">View</a> %>
                   <button class="btn btn-sm btn-ghost">Edit</button>
                 </div>
               </td>
@@ -55,11 +49,11 @@
       </div>
       <h3 class="text-lg font-semibold mb-2">No rooms yet</h3>
       <p class="text-gray-600 mb-4">Get started by creating your first room.</p>
-      <%= form_with url: rooms_path, method: :post, local: true, class: "flex gap-2 justify-center items-center max-w-md mx-auto" do |f| %>
-        <%= f.text_field :name, placeholder: "Enter room name...", required: true, 
-                         class: "input input-bordered input-primary flex-1" %>
-        <%= f.submit "Create Room", class: "btn btn-primary" %>
-      <% end %>
     </div>
+  <% end %>
+  <%= form_with url: rooms_path, method: :post, local: true, class: "flex gap-2 justify-center items-center max-w-md mx-auto py-6" do |f| %>
+    <%= f.text_field :name, placeholder: "Enter room name...", required: true,
+                        class: "input input-bordered input-primary flex-1" %>
+    <%= f.submit "Create Room", class: "btn btn-primary" %>
   <% end %>
 </div>
