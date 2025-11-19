@@ -2,18 +2,67 @@
   <div>
     <h1>Room <%= @room.code %></h1>
     <%# TODO: replace filler questions %>
-    <div
-      class="card bg-[#C8C8FF] shadow-md p-6 w-full max-w-md mx-auto space-y-4 mt-4 mb-4"
-    >
-      <label
-        class="block text-lg font-medium text-base-content bg-base-200 p-3 rounded-md border"
-      >
-        How are you, really?
-      </label>
-      <textarea
-        placeholder="Today, I am feeling..."
-        class="textarea textarea-bordered w-full h-48 text-med p-3 rounded-md bg-base-200"
-      ></textarea>
+    <div class="carousel rounded-box w-128">
+      <div id="question1" class="carousel-item relative w-full">
+        <%=
+          render partial: 'shared/qa_card',
+                 locals: {
+                   question: 'How are you 1?',
+                   placeholder: 'Today my vibes are...',
+                 }
+        %>
+        <div
+          class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
+        >
+          <a href="#question4" class="btn btn-circle">❮</a>
+          <a href="#question2" class="btn btn-circle">❯</a>
+        </div>
+      </div>
+      <div id="question2" class="carousel-item relative w-full">
+        <%=
+          render partial: 'shared/qa_card',
+                 locals: {
+                   question: 'How are you, really 2?',
+                   placeholder: 'I am feeling...',
+                 }
+        %>
+        <div
+          class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
+        >
+          <a href="#question1" class="btn btn-circle">❮</a>
+          <a href="#question3" class="btn btn-circle">❯</a>
+        </div>
+      </div>
+      <div id="question3" class="carousel-item relative w-full">
+        <%=
+          render partial: 'shared/qa_card',
+                 locals: {
+                   question: 'How are you, really 3?',
+                   placeholder: 'I am feeling...',
+                 }
+        %>
+        <div
+          class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
+        >
+          <a href="#question2" class="btn btn-circle">❮</a>
+          <a href="#question4" class="btn btn-circle">❯</a>
+        </div>
+      </div>
+      <div id="question4" class="carousel-item relative w-full">
+        <%=
+          render partial: 'shared/qa_card',
+                 locals: {
+                   question: 'How are you, really 4?',
+                   placeholder: 'I am feeling...',
+                 }
+        %>
+        <div
+          class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
+        >
+          <a href="#question3" class="btn btn-circle">❮</a>
+          <a href="#question1" class="btn btn-circle">❯</a>
+        </div>
+      </div>
     </div>
   </div>
 
