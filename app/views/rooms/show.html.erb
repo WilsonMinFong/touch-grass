@@ -2,21 +2,16 @@
   <div>
     <h1>Room <%= @room.code %></h1>
     <div class="carousel rounded-box w-128">
-      <% Question.all.each.with_index(1) do |question, question_num| %>
+      <% @questions.each.with_index(1) do |question, question_num| %>
         <div id="question<%= question_num %>" class="carousel-item relative w-full">
-          <%=
-            render partial: 'shared/qa_card',
-                  locals: {
-                    question: question.question_text,
-                    question_num: question_num,
-                    placeholder: question.placeholder,
-                  }
-          %>
+          <%= render 'shared/qa_card', 
+              question: question, 
+              question_num: question_num %>
           <div
             class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
           >
-            <a href="#question<%= question_num == 1 ? Question.count : question_num - 1 %>" class="btn btn-circle">❮</a>
-            <a href="#question<%= question_num == Question.count ? 1 : question_num + 1 %>" class="btn btn-circle">❯</a>
+            <a href="#question<%= question_num == 1 ? @questions.count : question_num - 1 %>" class="btn btn-circle">❮</a>
+            <a href="#question<%= question_num == @questions.count ? 1 : question_num + 1 %>" class="btn btn-circle">❯</a>
           </div>
         </div>
       <% end %>

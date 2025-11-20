@@ -1,7 +1,4 @@
 class RoomsController < ApplicationController
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
-
   def index
     @rooms = Room.for_session(current_session_id)
   end
@@ -10,6 +7,12 @@ class RoomsController < ApplicationController
     @room = Room.find_by!(code: params[:id])  # Allow viewing any room by code
     @room.join_session(current_session_id)    # Automatically join when viewing
     @is_owner = @room.is_owner?(current_session_id)
+
+    # Load all questions and user's responses in one query
+    @questions = Question.all
+    @user_responses = @room.question_responses
+                          .where(session_id: current_session_id)
+                          .index_by(&:question_id)
   end
 
   def create

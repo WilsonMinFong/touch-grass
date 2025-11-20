@@ -9,6 +9,7 @@ class Room < ApplicationRecord
 
   has_many :room_presences, dependent: :destroy
   has_many :active_participants, -> { active }, class_name: "RoomPresence"
+  has_many :question_responses
 
   # Use the code instead of id in URLs
   def to_param

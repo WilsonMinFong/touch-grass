@@ -1,13 +1,55 @@
-<div
-  class="card bg-[#C8C8FF] shadow-md p-6 w-full max-w-md mx-auto space-y-4 mt-4 mb-4"
->
-  <label
-    class="block text-lg font-medium text-base-content bg-base-200 p-3 rounded-md border"
-  >
-    <%= question_num %>. <%= question %>
+<% existing_response = @user_responses[question.id] %>
+
+<div class="card bg-[#C8C8FF] shadow-md p-6 w-full max-w-md mx-auto space-y-4 mt-4 mb-4"
+     data-controller="question-response"
+     data-question-response-question-id-value="<%= question.id %>"
+     data-question-response-room-code-value="<%= @room.code %>">
+
+  <label class="block text-lg font-medium text-base-content bg-base-200 p-3 rounded-md border">
+    <%= question_num %>. <%= question.question_text %>
   </label>
-  <textarea
-    placeholder="<%= placeholder %>"
-    class="textarea textarea-bordered w-full h-48 text-med p-3 rounded-md bg-base-200"
-  ></textarea>
+
+  <!-- Error state -->
+  <div data-question-response-target="error" class="hidden">
+    <div class="alert alert-error">
+      <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <span data-question-response-target="errorText">Something went wrong</span>
+    </div>
+  </div>
+
+  <!-- Form for new response -->
+  <%= form_with url: room_question_responses_path(@room),
+                data: {
+                  action: "submit->question-response#submit",
+                  question_response_target: "form"
+                },
+                local: false,
+                class: "response-form #{'hidden' if existing_response}" do |f| %>
+    <%= f.hidden_field :question_id, value: question.id %>
+    <%= f.text_area :response_text,
+                     placeholder: question.placeholder || "Share your thoughts...",
+                     class: "textarea textarea-bordered w-full h-48 text-med p-3 rounded-md bg-base-200",
+                     data: { question_response_target: "textarea" } %>
+    <div class="card-actions justify-end mt-4">
+      <%= f.submit "Submit Response",
+                   class: "btn btn-primary",
+                   data: { question_response_target: "submitBtn" } %>
+    </div>
+  <% end %>
+
+  <!-- Success state (show if response exists) -->
+  <div data-question-response-target="success" class="response-saved <%= 'hidden' unless existing_response %>">
+    <div class="alert alert-success mb-4">
+      <svg class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <span>Response saved!</span>
+    </div>
+    <div class="bg-base-200 p-4 rounded">
+      <p class="text-sm text-gray-600 mb-2">Your response:</p>
+      <p class="font-medium mb-3" data-question-response-target="responseText"><%= existing_response&.response_text %></p>
+    </div>
+  </div>
 </div>

@@ -21,5 +21,7 @@ Rails.application.routes.draw do
       delete "leave"
       patch "heartbeat"
     end
+
+    resources :question_responses, only: [ :index, :create, :update ], shallow: true
   end
 end
