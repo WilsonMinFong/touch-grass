@@ -9,9 +9,9 @@
 #   end
 
 [
-  "How are you?",
-  "What brings you here?",
-  "What's hard today?"
-].each do |question_text|
-  Question.find_or_create_by!(question_text: question_text)
+  { question_text: "How are you?", placeholder: "Today my vibes are..." },
+  { question_text: "What brings you here?", placeholder: "I'm here for..." },
+  { question_text: "What's hard today?", placeholder: "I'm struggling with..." }
+].each do |question_obj|
+  Question.find_or_create_by!(question_text: question_obj[:question_text], placeholder: question_obj[:placeholder])
 end
