@@ -2,14 +2,14 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="question-response"
 export default class extends Controller {
-  static targets = ["form", "textarea", "submitBtn", "success", "error", "responseText", "errorText"]
+  static targets = ["form", "textarea", "submitBtn", "success", "successAlert", "error", "responseText", "errorText"]
   static values = { questionId: Number, roomCode: String }
 
   async submit(event) {
     event.preventDefault()
-    
+
     const formData = new FormData(this.formTarget)
-    
+
     this.submitBtnTarget.disabled = true
     this.submitBtnTarget.textContent = "Submitting..."
     this.hideError()
@@ -43,6 +43,14 @@ export default class extends Controller {
     this.responseTextTarget.textContent = responseText
     this.hideForm()
     this.successTarget.classList.remove('hidden')
+
+    // Show the success alert temporarily
+    this.successAlertTarget.classList.remove('hidden')
+
+    // Hide the success alert after 3 seconds
+    setTimeout(() => {
+      this.successAlertTarget.classList.add('hidden')
+    }, 3000)
   }
 
   showError(errorMessage) {
