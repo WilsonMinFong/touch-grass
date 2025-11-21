@@ -31,6 +31,18 @@
     </div>
   </div>
 
+  <%# WIP: wordcloud card %>
+  <div
+    class="card bg-[#C8C8FF] shadow-md p-6 w-full max-w-md mx-auto space-y-4 mt-4 mb-4"
+    data-question-response-room-code-value="<%= @room.code %>"
+  >
+    <label
+      class="block text-lg font-medium text-base-content bg-base-200 p-3 rounded-md border"
+    >
+      <%= 'Question text' %>
+    </label>
+  </div>
+
   <% if Rails.env.development? %>
     <h1>Debug Dump</h1>
     <% is_admin = (@room.session_id == session[:user_identity]) %>
