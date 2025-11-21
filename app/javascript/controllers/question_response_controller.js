@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="question-response"
 export default class extends Controller {
   static targets = ["form", "textarea", "submitBtn", "success", "successAlert", "error", "responseText", "errorText"]
-  static values = { questionId: Number, roomCode: String }
+  static values = { questionId: Number, roomCode: String, existingResponse: String }
 
   async submit(event) {
     event.preventDefault()
@@ -35,15 +35,10 @@ export default class extends Controller {
       this.showError('Network error. Please try again.')
     } finally {
       this.submitBtnTarget.disabled = false
-      this.submitBtnTarget.textContent = "Submit Response"
     }
   }
 
   showSuccess(responseText) {
-    this.responseTextTarget.textContent = responseText
-    this.hideForm()
-    this.successTarget.classList.remove('hidden')
-
     // Show the success alert temporarily
     this.successAlertTarget.classList.remove('hidden')
 
@@ -51,6 +46,9 @@ export default class extends Controller {
     setTimeout(() => {
       this.successAlertTarget.classList.add('hidden')
     }, 3000)
+
+    this.existingResponseValue = responseText
+    console.log("show success")
   }
 
   showError(errorMessage) {
@@ -70,5 +68,17 @@ export default class extends Controller {
     this.responseTextTarget.textContent = responseText
     this.hideForm()
     this.successTarget.classList.remove('hidden')
+  }
+
+  existingResponseValueChanged() {
+    console.log("existingResponseValueChanged:", this.existingResponseValue)
+  
+    // Update submit button text
+    if (this.hasSubmitBtnTarget) {
+      console.log("submit btn update")
+      this.submitBtnTarget.value = this.existingResponseValue
+        ? "Edit Response"
+        : "Submit Response"
+    }
   }
 }

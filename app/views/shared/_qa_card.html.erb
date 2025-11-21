@@ -5,6 +5,7 @@
   data-controller="question-response"
   data-question-response-question-id-value="<%= question.id %>"
   data-question-response-room-code-value="<%= @room.code %>"
+  data-question-response-existing-response-value="<%= existing_response&.response_text.to_s %>"
 >
   <label
     class="block text-lg font-medium text-base-content bg-base-200 p-3 rounded-md border"
@@ -33,6 +34,26 @@
     </div>
   </div>
 
+  <!-- Success alert (only shown temporarily after saving) -->
+  <div
+    data-question-response-target="successAlert"
+    class="alert alert-success mb-4 hidden"
+  >
+    <svg
+      class="stroke-current shrink-0 h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+      ></path>
+    </svg>
+    <span>Response saved!</span>
+  </div>
+
   <!-- Form for new response -->
   <%= form_with url: room_question_responses_path(@room),
                 data: {
@@ -40,57 +61,40 @@
                   question_response_target: "form"
                 },
                 local: false,
-                class: "response-form #{'hidden' if existing_response}" do |f| %>
+                class: "response-form" do |f| %>
     <%= f.hidden_field :question_id, value: question.id %>
-    <%=
-      f.text_area :response_text,
-                  placeholder: question.placeholder || 'Share your thoughts...',
-                  class:
-                    'textarea textarea-bordered w-full h-48 text-med p-3 rounded-md bg-base-200',
-                  data: {
-                    question_response_target: 'textarea',
-                  }
-    %>
+    <%if !existing_response %>
+      <%=
+        f.text_area :response_text,
+                    placeholder:
+                      question.placeholder || 'Share your thoughts...',
+                    class:
+                      'textarea textarea-bordered w-full h-48 text-med p-3 rounded-md bg-base-200',
+                    data: {
+                      question_response_target: 'textarea',
+                    }
+      %>
+    <% else %>
+      <%=
+        f.text_area :response_text,
+                    value: existing_response&.response_text,
+                    class:
+                      'textarea textarea-bordered w-full h-48 text-med p-3 rounded-md bg-base-200',
+                    data: {
+                      question_response_target: 'textarea',
+                    }
+      %>
+    <% end %>
     <div class="card-actions justify-end mt-4">
       <%=
-        f.submit 'Submit Response',
-                 class: 'btn btn-primary',
-                 data: {
-                   question_response_target: 'submitBtn',
-                 }
+        f.submit(
+          existing_response ? 'Edit Response' : 'Submit Response',
+          class: 'btn btn-primary',
+          data: {
+            question_response_target: 'submitBtn',
+          },
+        )
       %>
     </div>
   <% end %>
-
-  <!-- Success state (show if response exists) -->
-  <div
-    data-question-response-target="success"
-    class="response-saved <%= 'hidden' unless existing_response %>"
-  >
-    <!-- Success alert (only shown temporarily after saving) -->
-    <div
-      data-question-response-target="successAlert"
-      class="alert alert-success mb-4 hidden"
-    >
-      <svg
-        class="stroke-current shrink-0 h-6 w-6"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-        ></path>
-      </svg>
-      <span>Response saved!</span>
-    </div>
-    <div class="bg-base-200 p-4 rounded">
-      <p class="text-sm text-gray-600 mb-2">Your response:</p>
-      <p class="font-medium mb-3" data-question-response-target="responseText">
-        <%= existing_response&.response_text %>
-      </p>
-    </div>
-  </div>
 </div>
