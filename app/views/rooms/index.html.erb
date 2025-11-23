@@ -3,6 +3,16 @@
     <h1 class="text-3xl font-bold">Your Rooms</h1>
   </div>
 
+  <%= form_with url: join_by_code_rooms_path, method: :post, local: true, class: "flex gap-2 justify-center items-center max-w-md mx-auto py-6" do |f| %>
+    <%= f.text_field :code, placeholder: "Enter room code...", required: true,
+                        class: "input input-bordered input-secondary flex-1" %>
+    <%= f.submit "Join Room", class: "btn btn-secondary" %>
+  <% end %>
+
+  <div class="flex flex-col w-full border-opacity-50 max-w-md mx-auto">
+    <div class="divider">OR</div>
+  </div>
+
   <%= form_with url: rooms_path, method: :post, local: true, class: "flex gap-2 justify-center items-center max-w-md mx-auto py-6" do |f| %>
     <%= f.text_field :name, placeholder: "Enter room name...", required: true,
                         class: "input input-bordered input-primary flex-1" %>

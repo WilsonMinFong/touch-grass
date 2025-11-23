@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
 
   resources :rooms, only: [ :index, :show, :create ] do
+    collection do
+      post :join_by_code
+    end
     member do
       post :join
       delete :leave

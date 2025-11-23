@@ -45,6 +45,15 @@ class RoomsController < ApplicationController
     redirect_to rooms_path, notice: "You left #{@room.name}"
   end
 
+  def join_by_code
+    @room = Room.find_by(code: params[:code].upcase)
+    if @room
+      redirect_to room_path(@room)
+    else
+      redirect_to rooms_path, alert: "Room not found with code: #{params[:code]}"
+    end
+  end
+
   def heartbeat
     @room = Room.find_by!(code: params[:id])
     presence = @room.join_session(current_session_id)
