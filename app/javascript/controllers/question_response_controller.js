@@ -42,6 +42,9 @@ export default class extends Controller {
 
       if (response.ok) {
         this.showSuccess(this.textareaTarget.value);
+        if (data.all_answered) {
+          window.location.href = `/rooms/${this.roomCodeValue}/responses`;
+        }
       } else {
         this.showError(data.error || "Something went wrong");
       }

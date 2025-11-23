@@ -29,6 +29,12 @@
         </div>
       <% end %>
     </div>
+
+    <% if @user_responses.count >= @questions.count %>
+      <div class="flex justify-center mt-8">
+        <%= link_to "View All Responses", responses_room_path(@room), class: "btn btn-primary btn-lg" %>
+      </div>
+    <% end %>
   </div>
 
   <%# WIP: wordcloud card %>

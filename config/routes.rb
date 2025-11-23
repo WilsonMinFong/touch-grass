@@ -17,11 +17,12 @@ Rails.application.routes.draw do
 
   resources :rooms, only: [ :index, :show, :create ] do
     member do
-      post "join"
-      delete "leave"
-      patch "heartbeat"
+      post :join
+      delete :leave
+      patch :heartbeat
+      get :responses
     end
 
-    resources :question_responses, only: [ :index, :create, :update ], shallow: true
+    resources :question_responses, only: [ :create, :update ]
   end
 end

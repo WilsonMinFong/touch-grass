@@ -9,3 +9,6 @@ application.register("hello", HelloController)
 
 import QuestionResponseController from "./question_response_controller"
 application.register("question-response", QuestionResponseController)
+
+import ResponsesStreamController from "./responses_stream_controller"
+application.register("responses-stream", ResponsesStreamController)

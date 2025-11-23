@@ -1,7 +1,7 @@
 import consumer from "./consumer"
 
 // Auto-connect to room channel when page has room data
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const roomElement = document.querySelector('[data-room-code]')
   if (roomElement) {
     const roomCode = roomElement.dataset.roomCode
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Connect to RoomChannel for real-time presence updates
 function connectToRoom(roomCode) {
   console.log(`Connecting to room: ${roomCode}`)
-  
+
   const subscription = consumer.subscriptions.create(
     { channel: "RoomChannel", room_code: roomCode },
     {
@@ -26,7 +26,7 @@ function connectToRoom(roomCode) {
 
       received(data) {
         console.log("Received data:", data)
-        
+
         // Update participant count in real-time
         const countElement = document.getElementById('participants-count')
         if (countElement && data.participants_count !== undefined) {
@@ -34,7 +34,7 @@ function connectToRoom(roomCode) {
         }
 
         // Handle different event types
-        switch(data.type) {
+        switch (data.type) {
           case 'user_joined':
             console.log('Someone joined the room')
             break
@@ -43,6 +43,10 @@ function connectToRoom(roomCode) {
             break
           case 'heartbeat':
             // Heartbeat updates
+            break
+          case 'new_response':
+            console.log('New response received')
+            document.dispatchEvent(new CustomEvent('room:new_response', { detail: data }))
             break
         }
       },

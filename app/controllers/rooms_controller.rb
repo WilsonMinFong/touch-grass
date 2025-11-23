@@ -15,6 +15,12 @@ class RoomsController < ApplicationController
                           .index_by(&:question_id)
   end
 
+  def responses
+    @room = Room.find_by!(code: params[:id])
+    @questions = Question.all
+    @responses_by_question = @room.question_responses.includes(:question).group_by(&:question_id)
+  end
+
   def create
     @room = Room.new(room_params.merge(session_id: current_session_id))
 
