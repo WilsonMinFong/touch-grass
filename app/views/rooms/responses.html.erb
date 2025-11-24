@@ -7,24 +7,28 @@
     <% end %>
     <h1 class="text-3xl font-bold">Responses for Room <%= @room.code %></h1>
   </div>
-  
+
   <div class="space-y-8">
     <% @questions.each do |question| %>
       <div class="card bg-[#C8C8FF] shadow-xl border border-base-200" id="question-<%= question.id %>">
         <div class="card-body">
           <h2 class="card-title text-xl mb-4 text-gray-800"><%= question.question_text %></h2>
-          
-          <div class="responses-list space-y-4" data-responses-stream-target="list" data-question-id="<%= question.id %>">
+
+          <div class="responses-list space-y-4"
+               data-responses-stream-target="list"
+               data-question-id="<%= question.id %>"
+               data-responses-stream-current-author-token-value="<%= @current_author_token %>">
             <% responses = @responses_by_question[question.id] || [] %>
             <% if responses.empty? %>
               <p class="text-base-content/50 italic empty-message">No responses yet...</p>
             <% end %>
             <% responses.each do |response| %>
-              <div class="chat chat-start" id="response-<%= response.id %>">
-                <div class="chat-bubble chat-bubble-primary flex flex-col gap-1 min-w-[120px]">
+              <% is_me = Digest::SHA256.hexdigest(response.session_id) == @current_author_token %>
+              <div class="chat <%= is_me ? 'chat-end' : 'chat-start' %>" id="response-<%= response.id %>">
+                <div class="chat-bubble <%= is_me ? 'chat-bubble-primary' : 'chat-bubble-secondary' %> flex flex-col gap-1 min-w-[120px]">
                   <div><%= response.response_text %></div>
                   <div class="self-end -mb-1 -mr-1">
-                    <button 
+                    <button
                       class="btn btn-ghost btn-xs gap-1 text-white hover:bg-white/20"
                       data-controller="reaction"
                       data-reaction-id-value="<%= response.id %>"

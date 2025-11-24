@@ -24,6 +24,7 @@ class RoomsController < ApplicationController
                                .where(response_reactions: { session_id: current_session_id })
                                .pluck(:id)
                                .to_set
+    @current_author_token = Digest::SHA256.hexdigest(current_session_id)
   end
 
   def create

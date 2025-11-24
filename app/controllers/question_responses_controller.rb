@@ -20,7 +20,8 @@ class QuestionResponsesController < ApplicationController
         type: "new_response",
         question_id: question_response.question_id,
         response_text: question_response.response_text,
-        response_id: question_response.id
+        response_id: question_response.id,
+        author_token: anonymized_id(question_response.session_id)
       })
 
       all_answered = @room.question_responses.where(session_id: current_session_id).count >= Question.count
@@ -44,11 +45,12 @@ class QuestionResponsesController < ApplicationController
     room = question_response.room
 
     if question_response.update(question_response_params)
-      RoomChannel.broadcast_to(room, {
+      RoomChannel.broadcast_to(@room, {
         type: "new_response",
         question_id: question_response.question_id,
         response_text: question_response.response_text,
-        response_id: question_response.id
+        response_id: question_response.id,
+        author_token: anonymized_id(question_response.session_id)
       })
 
       # For update, we assume they already answered everything or are just editing one,
@@ -73,5 +75,9 @@ class QuestionResponsesController < ApplicationController
 
   def question_response_params
     params.permit(:question_id, :response_text)
+  end
+
+  def anonymized_id(session_id)
+    Digest::SHA256.hexdigest(session_id)
   end
 end
