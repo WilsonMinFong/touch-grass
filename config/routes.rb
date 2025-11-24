@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       delete :leave
       patch :heartbeat
       get :responses
+      post :next_question
     end
 
     resources :question_responses, only: [ :create, :update ], shallow: true do

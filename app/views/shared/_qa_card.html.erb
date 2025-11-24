@@ -1,4 +1,4 @@
-<% existing_response = @user_responses[question.id] %>
+<% existing_response = @responses ? @responses[question.id] : nil %>
 
 <div
   class="card bg-[#C8C8FF] shadow-md p-6 w-full max-w-md mx-auto space-y-4 mt-4 mb-4"
@@ -10,7 +10,7 @@
   <label
     class="block text-lg font-medium text-base-content bg-base-200 p-3 rounded-md border"
   >
-    <%= question_num %>. <%= question.question_text %>
+    <%= question.position %>. <%= question.question_text %>
   </label>
 
   <!-- Error state -->
@@ -61,11 +61,13 @@
                   question_response_target: "form"
                 },
                 local: false,
+                autocomplete: "off",
                 class: "response-form" do |f| %>
     <%= f.hidden_field :question_id, value: question.id %>
     <%if !existing_response %>
       <%=
         f.text_area :response_text,
+                    id: "response_text_#{question.id}",
                     placeholder:
                       question.placeholder || 'Share your thoughts...',
                     class:
@@ -77,6 +79,7 @@
     <% else %>
       <%=
         f.text_area :response_text,
+                    id: "response_text_#{question.id}",
                     value: existing_response&.response_text,
                     class:
                       'textarea textarea-bordered w-full h-48 text-med p-3 rounded-md bg-base-200',
