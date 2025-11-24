@@ -1,24 +1,55 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Overview
 
-Things you may want to cover:
+This project is a Ruby on Rails application. The sections below outline how to install dependencies, set up the environment, and run the app during development.
 
-* Ruby version
+---
 
-* System dependencies
+## Requirements
 
-* Configuration
+**Ruby Version**
 
-* Database creation
+* Ruby 3.4.7
 
-* Database initialization
+**System Dependencies**
 
-* How to run the test suite
+* Ruby 3.4.7
+* Node.js
+* PostgreSQL
+* Webpack / webpack-cli
 
-* Services (job queues, cache servers, search engines, etc.)
+---
 
-* Deployment instructions
+## Setup Instructions
 
-* ...
+### 1. Install Dependencies
+
+```bash
+brew install node
+brew install postgresql
+bundle install
+npm install --save-dev webpack webpack-cli
+npx webpack
+```
+
+### 2. Initialize the Application (First Setup Only)
+
+Start PostgreSQL and create the initial database:
+
+```bash
+brew services start postgresql
+bin/rails db:create
+```
+
+---
+
+## Run the Application
+
+Run migrations, seed data (if needed), and start the development server:
+
+```bash
+bin/rails db:migrate
+bin/rails db:seed
+bin/dev
+```
