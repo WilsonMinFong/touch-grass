@@ -21,7 +21,25 @@
             <% end %>
             <% responses.each do |response| %>
               <div class="chat chat-start" id="response-<%= response.id %>">
-                <div class="chat-bubble chat-bubble-primary"><%= response.response_text %></div>
+                <div class="chat-bubble chat-bubble-primary flex flex-col gap-1 min-w-[120px]">
+                  <div><%= response.response_text %></div>
+                  <div class="self-end -mb-1 -mr-1">
+                    <button 
+                      class="btn btn-ghost btn-xs gap-1 text-white hover:bg-white/20"
+                      data-controller="reaction"
+                      data-reaction-id-value="<%= response.id %>"
+                      data-reaction-liked-value="<%= @liked_response_ids.include?(response.id) %>"
+                      data-reaction-count-value="<%= response.response_reactions.size %>"
+                      data-action="click->reaction#toggle"
+                      title="I relate to this!"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform duration-200" data-reaction-target="icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10.5 1.875a1.125 1.125 0 012.25 0v8.219c.517.017 1.02.066 1.5.146V2.25a1.125 1.125 0 012.25 0v8.219c.517.017 1.02.066 1.5.146V4.875a1.125 1.125 0 012.25 0V15a9.75 9.75 0 01-9.75 9.75c-.385 0-.765-.019-1.138-.057a1.125 1.125 0 01-1.009-1.238l.345-3.454a3 3 0 00-.879-2.121L3.75 14.25a1.125 1.125 0 011.59-1.59l3.543 3.543a.53.53 0 00.75-.75V1.875z" />
+                      </svg>
+                      <span data-reaction-target="count" class="text-xs"><%= response.response_reactions.size %></span>
+                    </button>
+                  </div>
+                </div>
               </div>
             <% end %>
           </div>

@@ -48,6 +48,10 @@ function connectToRoom(roomCode) {
             console.log('New response received')
             document.dispatchEvent(new CustomEvent('room:new_response', { detail: data }))
             break
+          case 'reaction_update':
+            console.log('Reaction update received')
+            document.dispatchEvent(new CustomEvent('room:reaction_update', { detail: data }))
+            break
         }
       },
 

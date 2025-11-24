@@ -26,6 +26,8 @@ Rails.application.routes.draw do
       get :responses
     end
 
-    resources :question_responses, only: [ :create, :update ]
+    resources :question_responses, only: [ :create, :update ], shallow: true do
+      resource :reaction, only: [ :create, :destroy ], module: :question_responses
+    end
   end
 end

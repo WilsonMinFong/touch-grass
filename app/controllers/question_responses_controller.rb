@@ -40,11 +40,11 @@ class QuestionResponsesController < ApplicationController
   end
 
   def update
-    @room = Room.find_by!(code: params[:room_id])
     question_response = QuestionResponse.find_by!(id: params[:id], session_id: current_session_id)
+    room = question_response.room
 
     if question_response.update(question_response_params)
-      RoomChannel.broadcast_to(@room, {
+      RoomChannel.broadcast_to(room, {
         type: "new_response",
         question_id: question_response.question_id,
         response_text: question_response.response_text,
@@ -53,7 +53,7 @@ class QuestionResponsesController < ApplicationController
 
       # For update, we assume they already answered everything or are just editing one,
       # but we can still return the status.
-      all_answered = @room.question_responses.where(session_id: current_session_id).count >= Question.count
+      all_answered = room.question_responses.where(session_id: current_session_id).count >= Question.count
 
       render json: {
         success: true,

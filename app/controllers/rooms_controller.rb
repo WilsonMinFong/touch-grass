@@ -18,7 +18,12 @@ class RoomsController < ApplicationController
   def responses
     @room = Room.find_by!(code: params[:id])
     @questions = Question.all
-    @responses_by_question = @room.question_responses.includes(:question).group_by(&:question_id)
+    @responses_by_question = @room.question_responses.includes(:question, :response_reactions).group_by(&:question_id)
+    @liked_response_ids = @room.question_responses
+                               .joins(:response_reactions)
+                               .where(response_reactions: { session_id: current_session_id })
+                               .pluck(:id)
+                               .to_set
   end
 
   def create
