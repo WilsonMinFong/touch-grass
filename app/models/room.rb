@@ -32,6 +32,13 @@ class Room < ApplicationRecord
     end
   end
 
+  def reset!
+    transaction do
+      question_responses.destroy_all
+      update!(current_question: nil, status: :active)
+    end
+  end
+
   # Use the code instead of id in URLs
   def to_param
     code
