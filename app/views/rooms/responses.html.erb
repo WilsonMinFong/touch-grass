@@ -1,4 +1,4 @@
-<div class="max-w-4xl mx-auto p-4" data-room-code="<%= @room.code %>" data-controller="responses-stream">
+<div class="max-w-4xl mx-auto" data-room-code="<%= @room.code %>" data-controller="responses-stream">
   <div class="flex items-center mb-6 gap-4">
     <%= link_to room_path(@room), class: "btn btn-circle btn-ghost" do %>
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -12,7 +12,7 @@
     <% @questions.each do |question| %>
       <div class="card bg-[#C8C8FF] shadow-xl border border-base-200" id="question-<%= question.id %>">
         <div class="card-body">
-          <h2 class="card-title text-xl mb-4 text-gray-800"><%= question.question_text %></h2>
+          <h2 class="card-title text-xl text-gray-800"><%= question.question_text %></h2>
 
           <div class="responses-list space-y-4"
                data-responses-stream-target="list"
