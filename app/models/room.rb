@@ -10,6 +10,34 @@ class Room < ApplicationRecord
   has_many :room_presences, dependent: :destroy
   has_many :active_participants, -> { active }, class_name: "RoomPresence"
   has_many :question_responses
+  belongs_to :current_question, class_name: "Question", optional: true
+
+  enum :status, { active: 0, completed: 1 }, default: :active
+
+  def next_question!
+    # If no current question, start with the first one
+    if current_question.nil?
+      update!(current_question: Question.order(:id).first)
+      return
+    end
+
+    # Find the next question
+    next_q = Question.where("id > ?", current_question.id).order(:id).first
+
+    if next_q
+      update!(current_question: next_q)
+    else
+      # No more questions, mark as completed
+      update!(status: :completed, current_question: nil)
+    end
+  end
+
+  def reset!
+    transaction do
+      question_responses.destroy_all
+      update!(current_question: nil, status: :active)
+    end
+  end
 
   # Use the code instead of id in URLs
   def to_param

@@ -18,6 +18,12 @@ export default class extends Controller {
     existingResponse: String,
   };
 
+  connect() {
+    if (!this.existingResponseValue && this.hasTextareaTarget) {
+      this.textareaTarget.value = "";
+    }
+  }
+
   async submit(event) {
     event.preventDefault();
 
@@ -42,9 +48,7 @@ export default class extends Controller {
 
       if (response.ok) {
         this.showSuccess(this.textareaTarget.value);
-        if (data.all_answered) {
-          window.location.href = `/rooms/${this.roomCodeValue}/responses`;
-        }
+        window.location.reload();
       } else {
         this.showError(data.error || "Something went wrong");
       }
